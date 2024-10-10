@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login</title>
+</head>
+<body>
+  <h1>Login</h1>
+  <form id="loginForm">
+    <label for="loginUsername">Username:</label>
+    <input type="text" id="loginUsername" name="loginUsername" required><br><br>
+    <label for="loginPassword">Password:</label>
+    <input type="password" id="loginPassword" name="loginPassword" required><br><br>
+    <button type="submit">Login</button>
+  </form>
+  <p id="loginMessage"></p>
+  <p><a href="/auth">Back to Home</a></p>
+  <p id="enterDataLink" style="display: none;"><a href="http://localhost:5001/enter-data">Enter Data</a></p>
+  <p><a href="/auth">Show Results</a></p>
+  <script>        
+    document.getElementById('loginForm').addEventListener('submit', function (event) {
+      event.preventDefault();
+      const username = document.getElementById('loginUsername').value;
+      const password = document.getElementById('loginPassword').value;
+      const enterDataLink = document.getElementById('enterDataLink');
+      
+
+      fetch('/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username, password })
+      })
+      .then(response => response.json())
+      .then(data => {
+        document.getElementById('loginMessage').innerText = data.message;
+        if (data.loggedIn){
+          enterDataLink.style.display = 'block';
+        } 
+        if(data.token){
+          localStorage.setItem('token', data.token); 
+        }
+      })
+      .catch(error => console.error('Error:', error));
+    });
+    document.getElementById('enterData').addEventListener('click', function(event) {
+      event.preventDefault(); // Prevent default anchor behavior
+      const token = localStorage.getItem('token'); // Get the token from localStorage
+      const enterDataUrl = `http://localhost:5001?token=${token}`; // Append token as a query parameter
+      window.location.href = enterDataUrl; // Redirect to the Enter Data page
+    });
+    fetch('http://localhost:5001/enter-data', {
+    method: 'GET',
+    headers: {
+      'Authorization': `Bearer ${localStorage.getItem('token')}`
+      }
+    })
+    .then(response => response.json())
+    .then(data => {
+      console.log(data);
+    })
+    .catch(error => console.error('Error:', error));
+  </script>
+</body>
+</html>

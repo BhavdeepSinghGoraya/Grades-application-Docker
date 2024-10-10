@@ -1,0 +1,5 @@
+# Ignore MySQL socket file
+mysql-service/data/mysql.sock
+
+# Optionally ignore the entire data directory if you don't want to track any files within it
+mysql-service/data/

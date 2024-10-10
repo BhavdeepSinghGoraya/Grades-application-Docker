@@ -1,0 +1,39 @@
+version: '3.8'
+
+services:
+  auth-service:
+    build: ./auth-service
+    ports:
+      - "3000:3000"
+ 
+  enter-data-service:
+    build: ./enter-data-service2
+    ports:
+      - "5001:5001"
+    depends_on:
+      - mysql
+    environment:
+      DB_HOST: mysql  
+      DB_USER: user
+      DB_PASSWORD: password
+      DB_NAME: grades_db
+    networks:
+      - app-network
+
+  mysql:
+    image: mysql:5.7
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: grades_db
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./mysql-service/data:/var/lib/mysql
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
