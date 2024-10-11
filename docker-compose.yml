@@ -7,7 +7,7 @@ services:
       - "3000:3000"
  
   enter-data-service:
-    build: ./enter-data-service2
+    build: ./enter-data-service
     ports:
       - "5001:5001"
     depends_on:
@@ -20,6 +20,16 @@ services:
     networks:
       - app-network
 
+  mongo-db:
+      image: mongo:latest
+      container_name: mongo
+      volumes:
+        - ./mongo_data:/data/db
+      ports:
+        - "27017:27017"
+      networks:
+        - app-network
+
   mysql:
     image: mysql:5.7
     environment:
@@ -31,6 +41,19 @@ services:
       - "3306:3306"
     volumes:
       - ./mysql-service/data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - app-network
+
+  analytics-service:
+    build: ./analytics-service
+    depends_on:
+      - mysql
+      - mongo-db
     networks:
       - app-network
 
