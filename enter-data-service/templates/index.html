@@ -4,9 +4,52 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Enter Data</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        nav {
+            background-color: #f8f9fa;
+            padding: 10px;
+            margin-bottom: 20px;
+        }
+        nav a {
+            margin-right: 20px;
+            text-decoration: none;
+            font-weight: bold;
+            color: #007bff;
+        }
+        nav a:hover {
+            text-decoration: underline;
+        }
+        button {
+            padding: 10px 15px;
+            font-size: 16px;
+        }
+        #result {
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            display: none;
+        }
+    </style>
 </head>
 <body>
+    <!-- Navigation Header -->
+    <nav>
+        <a href="http://localhost:8000/show-results">Show Results</a>
+    </nav>
     <h1>Enter Data</h1>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <ul>
+            {% for category, message in messages %}
+                <li class="{{ category }}">{{ message }}</li>
+            {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
     <form action="/enter-data" method="POST">
         <label for="grade">Grade:</label>
         <input type="text" id="grade" name="grade" required><br><br>

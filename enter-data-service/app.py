@@ -1,11 +1,11 @@
 import mysql.connector
 import time
 import jwt
-from flask import Flask, render_template, request, jsonify, redirect, url_for
+from flask import Flask, render_template, request, jsonify, redirect, url_for, flash
 from functools import wraps
 
 app = Flask(__name__)
-SECRET_KEY = 'Docker-Project-1'
+app.secret_key = 'Docker-Project-1'
 # MySQL connection config (using environment variables)
 def create_connection():
     return mysql.connector.connect(
@@ -15,33 +15,33 @@ def create_connection():
         database="grades_db"
     )
     
-def token_required(f):
-    @wraps(f)
-    def decorated_function(*args, **kwargs):
-        token = request.headers.get('Authorization')
-        token=token.split(" ")[1]
-        if not token:
-            return jsonify({'message': 'Token is missing'}), 403
-        try:
-            # Validate the token
-            jwt.decode(token, SECRET_KEY, algorithms=['HS256'])
-        except jwt.ExpiredSignatureError:
-            return jsonify({'message': 'Token has expired'}), 403
-        except jwt.InvalidTokenError:
-            return jsonify({'message': 'Invalid token'}), 403
-        return f(*args, **kwargs)
-    return decorated_function
+# def token_required(f):
+#     @wraps(f)
+#     def decorated_function(*args, **kwargs):
+#         token = request.headers.get('Authorization')
+#         token=token.split(" ")[1]
+#         if not token:
+#             return jsonify({'message': 'Token is missing'}), 403
+#         try:
+#             # Validate the token
+#             jwt.decode(token, SECRET_KEY, algorithms=['HS256'])
+#         except jwt.ExpiredSignatureError:
+#             return jsonify({'message': 'Token has expired'}), 403
+#         except jwt.InvalidTokenError:
+#             return jsonify({'message': 'Invalid token'}), 403
+#         return f(*args, **kwargs)
+#     return decorated_function
 
 
 
 @app.route('/enter-data', methods=['GET','POST'])
-@token_required 
+# @token_required 
 def enter_data():
     if (request.method=='GET'):
 
         return render_template('index.html')
     print(request.method)
-    grade = request.form.get('grade')
+    grade = int(request.form.get('grade'))
     student_name = request.form.get('student_name')
     print(grade)
     print(student_name)
@@ -55,11 +55,12 @@ def enter_data():
         print("Connected again")
 
         # Insert data into the MySQL table (replace 'grades_table' with your table)
-        query = "INSERT INTO grades (grade, name) VALUES (%s, %s)"
+        query = "INSERT INTO grades (grade, student_name) VALUES (%s, %s)"
         cursor.execute(query, (grade, student_name))
         conn.commit()
 
-        return jsonify({"message": "Data entered successfully"}), 200
+        flash("Data entered successfully!", "success")  # Flash success message
+        return redirect(url_for('enter_data'))
     except mysql.connector.Error as err:
         print(f"Error: {err}")
         return jsonify({"error": f"Failed to connect to database {err}"}), 500

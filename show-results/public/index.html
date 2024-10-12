@@ -1,0 +1,70 @@
+<!-- public/index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Show Results</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        nav {
+            background-color: #f8f9fa;
+            padding: 10px;
+            margin-bottom: 20px;
+        }
+        nav a {
+            margin-right: 20px;
+            text-decoration: none;
+            font-weight: bold;
+            color: #007bff;
+        }
+        nav a:hover {
+            text-decoration: underline;
+        }
+        button {
+            padding: 10px 15px;
+            font-size: 16px;
+        }
+        #result {
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation Header -->
+    <nav>
+        <a href="http://localhost:5001/enter-data">Enter Data</a>
+    </nav>
+
+    <h1>Show Results</h1>
+    <button id="fetchLatest">Fetch Latest Stats</button>
+    <div id="result"></div>
+
+    <script>
+        document.getElementById('fetchLatest').addEventListener('click', function() {
+            fetch('/get-latest-entry')
+                .then(response => response.json())
+                .then(data => {
+                    const resultDiv = document.getElementById('result');
+                    if (data) {
+                        resultDiv.innerHTML = `<strong>Latest Entry:</strong><br>Maximum Grade: ${data.max_grade}<br>Minimum Grade: ${data.min_grade}<br>Average Grade: ${data.avg_grade}<br>Last Updated: ${data.timestamp}`;
+                        resultDiv.style.display = 'block';
+                    } else {
+                        resultDiv.innerHTML = 'No entries found.';
+                        resultDiv.style.display = 'block';
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching latest entry:', error);
+                });
+        });
+    </script>
+</body>
+</html>

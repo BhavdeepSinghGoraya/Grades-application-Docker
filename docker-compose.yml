@@ -1,17 +1,19 @@
-version: '3.8'
-
+version: '3.3'
 services:
   auth-service:
     build: ./auth-service
+    container_name: auth-service
     ports:
       - "3000:3000"
  
   enter-data-service:
     build: ./enter-data-service
+    container_name: enter-data-service
     ports:
       - "5001:5001"
     depends_on:
-      - mysql
+      mysql:
+        condition: service_started
     environment:
       DB_HOST: mysql  
       DB_USER: user
@@ -24,7 +26,7 @@ services:
       image: mongo:latest
       container_name: mongo
       volumes:
-        - ./mongo_data:/data/db
+        - mongo_data:/data/db
       ports:
         - "27017:27017"
       networks:
@@ -32,6 +34,7 @@ services:
 
   mysql:
     image: mysql:5.7
+    container_name: mysql
     environment:
       MYSQL_ROOT_PASSWORD: password
       MYSQL_DATABASE: grades_db
@@ -40,23 +43,41 @@ services:
     ports:
       - "3306:3306"
     volumes:
-      - ./mysql-service/data:/var/lib/mysql
-    healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
+      - mysql-service:/var/lib/mysql
+      - ./mysql-service/init.sql:/docker-entrypoint-initdb.d/init.sql
+    # healthcheck:
+    #   test: ["CMD", "mysqladmin", "ping", "-h", "localhost","-p$MYSQL_ROOT_PASSWORD"]
+    #   interval: 10s
+    #   timeout: 5s
+    #   retries: 5
     networks:
       - app-network
 
   analytics-service:
     build: ./analytics-service
+    container_name: analytics-service
     depends_on:
-      - mysql
-      - mongo-db
+      mysql:
+        condition: service_started
+      mongo-db:
+        condition: service_started
+    networks:
+      - app-network
+
+  show-results:
+    build: ./show-results
+    container_name: show-results
+    ports:
+      - "8000:8000"
+    depends_on:
+      mongo-db:
+        condition: service_started
     networks:
       - app-network
 
 networks:
   app-network:
     driver: bridge
+volumes:
+  mysql-service : {}
+  mongo_data : {}
