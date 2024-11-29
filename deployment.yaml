@@ -18,7 +18,7 @@ spec:
         app: analytics-service
     spec:
       containers:
-        - image: analytics-service
+        - image: bhavya612/grades-application-docker-analytics-service
           name: analytics-service
       restartPolicy: Always
 
@@ -41,7 +41,7 @@ spec:
         app: auth-service
     spec:
       containers:
-        - image: auth-service
+        - image: bhavya612/grades-application-docker-auth-service
           name: auth-service
           ports:
             - containerPort: 3000
@@ -67,7 +67,7 @@ spec:
     spec:
       containers:
         - name: enter-data-service
-          image: your-docker-registry/enter-data-service:latest
+          image: bhavya612/grades-application-docker-enter-data-service
           env:
             - name: DB_HOST
               valueFrom:
@@ -202,7 +202,7 @@ spec:
         app: show-results
     spec:
       containers:
-        - image: show-results
+        - image: bhavya612/grades-application-docker-show-results
           name: show-results
           ports:
             - containerPort: 8000
