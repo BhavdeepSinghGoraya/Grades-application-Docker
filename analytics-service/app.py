@@ -24,9 +24,6 @@ def connect_with_retry(retries=5, delay=5):
     raise Exception("Could not connect to MySQL after retries")
 
 def init_scheduler():
-    print('--------------------------------------------------------')
-    print('inside init schedular')
-    print('--------------------------------------------------------')
     sched = BackgroundScheduler(daemon=True)
     sched.add_job(process_stats,
                 'interval',
@@ -36,9 +33,6 @@ def init_scheduler():
 
 def process_stats():
     try:
-        print('--------------------------------------------------------')
-        print('inside process stats')
-        print('--------------------------------------------------------')
         current_datetime = datetime.datetime.now()
         stats = {
             "max_grade": 0,
@@ -67,7 +61,6 @@ def process_stats():
 
         # Inserting the stats into MongoDB with a timestamp
         stats_collection.insert_one(stats)
-
         print(f"Stats inserted into MongoDB at {current_datetime}")
 
     except Error as mysql_error:
@@ -91,6 +84,6 @@ if __name__=='__main__':
     init_scheduler()
     try:
         while True:
-            time.sleep(60)  # Sleep for 1 minute to keep the service alive
+            time.sleep(30)  # Sleep for 1 minute to keep the service alive
     except (KeyboardInterrupt, SystemExit):
         print("Analytics service shutting down.")

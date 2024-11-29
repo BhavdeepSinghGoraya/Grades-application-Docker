@@ -55,28 +55,6 @@ router.get('/register', (req, res) => {
     res.sendFile(path.join(__dirname, '..', 'frontend', 'register.html'));
 });
 
-// // Login route
-// router.post('/login', (req, res) => {
-//   const { username, password } = req.body;
-
-//   if (!username || !password) {
-//     return res.status(400).json({ message: 'Username and password are required' });
-//   }
-
-//   const users = readUsers();
-
-//   // Find the user in the JSON file
-//   const user = users.find(user => user.username === username);
-//   if (!user) {
-//     return res.status(400).json({ message: 'Invalid credentials' });
-//   }
-
-//   // Check if the password matches
-//   const isPasswordValid = bcrypt.compareSync(password, user.password);
-//   if (!isPasswordValid) {
-//     return res.status(400).json({ message: 'Invalid credentials' });
-//   }
-// });
 
 const jwt = require('jsonwebtoken');
 const SECRET_KEY = 'Docker-Project-1'; 

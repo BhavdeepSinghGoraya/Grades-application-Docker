@@ -1,0 +1,71 @@
+---
+#Auth Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: auth-service
+spec:
+  ports:
+    - name: "3000"
+      port: 3000
+      targetPort: 3000
+  selector:
+    app: auth-service
+---
+#Enter Data service
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: enter-data-service
+  name: enter-data-service
+spec:
+  ports:
+    - name: "5001"
+      port: 5001
+      targetPort: 5001
+  selector:
+    app: enter-data-service
+---
+#MongoDB Service
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: mongo-db
+  name: mongo-db
+spec:
+  ports:
+    - name: "27017"
+      port: 27017
+      targetPort: 27017
+  selector:
+    app: mongo-db
+---
+#Mysql Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: mysql
+spec:
+  ports:
+    - name: "3306"
+      port: 3306
+      targetPort: 3306
+  selector:
+    app: mysql
+---
+#Show Result service
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: show-results
+  name: show-results
+spec:
+  ports:
+    - name: "8000"
+      port: 8000
+      targetPort: 8000
+  selector:
+    app: show-results

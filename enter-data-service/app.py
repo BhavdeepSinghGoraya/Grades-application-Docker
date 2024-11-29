@@ -15,24 +15,6 @@ def create_connection():
         database="grades_db"
     )
     
-# def token_required(f):
-#     @wraps(f)
-#     def decorated_function(*args, **kwargs):
-#         token = request.headers.get('Authorization')
-#         token=token.split(" ")[1]
-#         if not token:
-#             return jsonify({'message': 'Token is missing'}), 403
-#         try:
-#             # Validate the token
-#             jwt.decode(token, SECRET_KEY, algorithms=['HS256'])
-#         except jwt.ExpiredSignatureError:
-#             return jsonify({'message': 'Token has expired'}), 403
-#         except jwt.InvalidTokenError:
-#             return jsonify({'message': 'Invalid token'}), 403
-#         return f(*args, **kwargs)
-#     return decorated_function
-
-
 
 @app.route('/enter-data', methods=['GET','POST'])
 # @token_required 
@@ -54,12 +36,11 @@ def enter_data():
         cursor = conn.cursor()
         print("Connected again")
 
-        # Insert data into the MySQL table (replace 'grades_table' with your table)
         query = "INSERT INTO grades (grade, student_name) VALUES (%s, %s)"
         cursor.execute(query, (grade, student_name))
         conn.commit()
 
-        flash("Data entered successfully!", "success")  # Flash success message
+        flash("Data entered successfully!", "success") 
         return redirect(url_for('enter_data'))
     except mysql.connector.Error as err:
         print(f"Error: {err}")
