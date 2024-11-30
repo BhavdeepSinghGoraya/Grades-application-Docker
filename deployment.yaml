@@ -179,6 +179,16 @@ spec:
       containers:
         - name: mysql
           image: bhavya612/grades-application-mysql-service:latest
+          command:
+            - bash
+            - -c
+            - |
+              if [ ! -d "/var/lib/mysql/mysql" ]; then
+                echo "Initializing MySQL data directory..."
+                mysqld --initialize-insecure --user=mysql --datadir=/var/lib/mysql
+              fi
+              echo "Starting MySQL..."
+              exec mysqld
           resources:
             requests:
               memory: "1Gi"
