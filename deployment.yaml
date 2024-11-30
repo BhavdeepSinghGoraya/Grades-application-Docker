@@ -161,66 +161,40 @@ spec:
           persistentVolumeClaim:
             claimName: mongo-data
 ---
-#MySQL service deployment
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  labels:
-    app: mysql
   name: mysql
 spec:
   replicas: 1
   selector:
     matchLabels:
       app: mysql
-  strategy:
-    type: Recreate
   template:
     metadata:
       labels:
         app: mysql
     spec:
       containers:
-        - env:
-            - name: MYSQL_DATABASE
-              value: grades_db
-            - name: MYSQL_PASSWORD
-              value: password
-            - name: MYSQL_ROOT_PASSWORD
-              value: password
-            - name: MYSQL_USER
-              value: user
-          image: mysql:5.7
-
-          name: mysql
+        - name: mysql
+          image: bhavya612/grades-application-mysql-service:latest 
           resources:
-            requests:
-              memory: "1Gi"
-              cpu: "250m"
-            limits:
-              memory: "2Gi"
-              cpu: "1"
-
+          requests:
+            memory: "1Gi"
+            cpu: "250m"
+          limits:
+            memory: "2Gi"
+            cpu: "1"
           ports:
             - containerPort: 3306
-              protocol: TCP
           volumeMounts:
             - mountPath: /var/lib/mysql
               name: mysql-service
-            - mountPath: /docker-entrypoint-initdb.d/init.sql
-              name: mysql-cm1
-              subPath: init.sql
-      restartPolicy: Always
       volumes:
         - name: mysql-service
           persistentVolumeClaim:
             claimName: mysql-service
-        - configMap:
-            items:
-              - key: init.sql
-                path: init.sql
-            name: mysql-cm1
-          name: mysql-cm1
+
 ---
 #Show-Results Service deployment
 apiVersion: apps/v1
