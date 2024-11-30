@@ -127,7 +127,7 @@ metadata:
     app: mongo-db
   name: mongo-db
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: mongo-db
@@ -169,7 +169,7 @@ metadata:
     app: mysql
   name: mysql
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: mysql
