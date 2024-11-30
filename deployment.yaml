@@ -161,6 +161,7 @@ spec:
           persistentVolumeClaim:
             claimName: mongo-data
 ---
+## Mysql service
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -177,14 +178,14 @@ spec:
     spec:
       containers:
         - name: mysql
-          image: bhavya612/grades-application-mysql-service:latest 
+          image: bhavya612/grades-application-mysql-service:latest
           resources:
-          requests:
-            memory: "1Gi"
-            cpu: "250m"
-          limits:
-            memory: "2Gi"
-            cpu: "1"
+            requests:
+              memory: "1Gi"
+              cpu: "250m"
+            limits:
+              memory: "2Gi"
+              cpu: "1"
           ports:
             - containerPort: 3306
           volumeMounts:
