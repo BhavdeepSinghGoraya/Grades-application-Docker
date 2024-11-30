@@ -1,5 +1,7 @@
 apiVersion: v1
 data:
+  DB_HOST: "3306"
+  DB_PORT: "mysql"
   init.sql: |-
     USE grades_db;
 
@@ -13,6 +15,7 @@ data:
     -- Grant all privileges to the user
     GRANT ALL PRIVILEGES ON grades_db.* TO 'user'@'%';
     FLUSH PRIVILEGES;
+    
 kind: ConfigMap
 metadata:
   name: mysql-cm1
