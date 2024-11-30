@@ -20,6 +20,13 @@ spec:
       containers:
         - image: bhavya612/grades-application-docker-analytics-service:latest
           name: analytics-service
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "250m"
+            limits:
+              memory: "512Mi"
+              cpu: "500m"
       restartPolicy: Always
 
 ---
@@ -43,6 +50,13 @@ spec:
       containers:
         - image: bhavya612/grades-application-docker-auth-service:latest
           name: auth-service
+          resources:
+            requests:
+              memory: "512Mi"
+              cpu: "500m"
+            limits:
+              memory: "1Gi"
+              cpu: "1"
           ports:
             - containerPort: 3000
               protocol: TCP
@@ -67,6 +81,14 @@ spec:
       containers:
         - name: enter-data-service
           image: bhavya612/grades-application-docker-enter-data-service:latest
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "250m"
+            limits:
+              memory: "512Mi"
+              cpu: "500m"
+
           env:
             - name: DB_HOST
               valueFrom:
@@ -119,6 +141,14 @@ spec:
       containers:
         - image: mongo:latest
           name: mongo
+          resources:
+            requests:
+              memory: "1Gi"
+              cpu: "500m"
+            limits:
+              memory: "2Gi"
+              cpu: "1"
+
           ports:
             - containerPort: 27017
               protocol: TCP
@@ -161,7 +191,16 @@ spec:
             - name: MYSQL_USER
               value: user
           image: mysql:5.7
+
           name: mysql
+          resources:
+            requests:
+              memory: "1Gi"
+              cpu: "500m"
+            limits:
+              memory: "2Gi"
+              cpu: "1"
+
           ports:
             - containerPort: 3306
               protocol: TCP
@@ -203,6 +242,14 @@ spec:
       containers:
         - image: bhavya612/grades-application-docker-show-results:latest
           name: show-results
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "250m"
+            limits:
+              memory: "512Mi"
+              cpu: "500m"
+
           ports:
             - containerPort: 8000
               protocol: TCP
