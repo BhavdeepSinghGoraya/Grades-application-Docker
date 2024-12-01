@@ -191,7 +191,6 @@ spec:
           volumeMounts:
             - mountPath: /var/lib/mysql
               name: mysql-service
-              subPath: mysql
       volumes:
         - name: mysql-service
           persistentVolumeClaim:
