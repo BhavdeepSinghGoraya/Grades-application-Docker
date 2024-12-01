@@ -8,7 +8,7 @@ metadata:
     app: analytics-service
   name: analytics-service
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: analytics-service
@@ -36,10 +36,11 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: auth-service
+  role: frontend
   labels:
     app: auth-service
 spec:
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
       app: auth-service
@@ -70,8 +71,9 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: enter-data-service
+  role: frontend
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: enter-data-service
@@ -219,9 +221,10 @@ kind: Deployment
 metadata:
   labels:
     app: show-results
+    role: frontend
   name: show-results
 spec:
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
       app: show-results

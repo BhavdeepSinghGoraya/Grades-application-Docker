@@ -21,6 +21,7 @@ metadata:
     app: enter-data-service
   name: enter-data-service
 spec:
+  type: LoadBalancer
   ports:
     - name: "5001"
       port: 5001
@@ -64,6 +65,7 @@ metadata:
     app: show-results
   name: show-results
 spec:
+  type: LoadBalancer
   ports:
     - name: "8000"
       port: 8000
