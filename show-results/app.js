@@ -5,7 +5,7 @@ const path = require('path');
 
 const app = express();
 const port = process.env.PORT || 8000;
-const mongoUri = 'mongodb://mongo:27017'; // Docker service name for MongoDB
+const mongoUri = 'mongodb://mongo-db:27017'; // Docker service name for MongoDB
 
 const client = new MongoClient(mongoUri);
 

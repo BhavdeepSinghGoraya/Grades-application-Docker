@@ -59,8 +59,12 @@ def process_stats():
         db = client.analytics_db
         stats_collection = db.grade_statistics
 
-        # Inserting the stats into MongoDB with a timestamp
-        stats_collection.insert_one(stats)
+        try:
+            stats_collection.insert_one(stats)
+            print(f"Insertion successful {stats}")
+        except Exception as e:
+            print(f"Error inserting into MongoDB: {e}")
+
         print(f"Stats inserted into MongoDB at {current_datetime}")
 
     except Error as mysql_error:
