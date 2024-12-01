@@ -179,14 +179,6 @@ spec:
       containers:
         - name: mysql
           image: bhavya612/grades-application-mysql-service:latest
-          command:
-            - bash
-            - -c
-            - |
-              if [ -d "/var/lib/mysql/mysql" ]; then
-                echo "Removing old MySQL data directory..."
-                rm -rf /var/lib/mysql/*
-              fi
           resources:
             requests:
               memory: "1Gi"
@@ -199,10 +191,12 @@ spec:
           volumeMounts:
             - mountPath: /var/lib/mysql
               name: mysql-service
+              subPath: mysql
       volumes:
         - name: mysql-service
           persistentVolumeClaim:
             claimName: mysql-service
+
 
 ---
 #Show-Results Service deployment
