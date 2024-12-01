@@ -36,7 +36,6 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: auth-service
-  role: frontend
   labels:
     app: auth-service
 spec:
@@ -71,7 +70,6 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: enter-data-service
-  role: frontend
 spec:
   replicas: 1
   selector:
@@ -221,7 +219,6 @@ kind: Deployment
 metadata:
   labels:
     app: show-results
-    role: frontend
   name: show-results
 spec:
   replicas: 1
