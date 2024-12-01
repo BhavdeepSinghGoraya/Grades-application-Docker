@@ -179,6 +179,17 @@ spec:
       containers:
         - name: mysql
           image: bhavya612/grades-application-mysql-service:latest
+          env:
+            - name: MYSQL_ALLOW_EMPTY_PASSWORD
+              value: "no"
+            - name: MYSQL_ROOT_PASSWORD
+              value: "password"
+            - name: MYSQL_DATABASE
+              value: "grades_db"
+            - name: MYSQL_USER
+              value: "user"
+            - name: MYSQL_PASSWORD
+              value: "password"
           resources:
             requests:
               memory: "1Gi"
