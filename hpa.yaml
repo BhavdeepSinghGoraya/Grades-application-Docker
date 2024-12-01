@@ -31,6 +31,9 @@ spec:
     apiVersion: apps/v1
     kind: Deployment
     name: enter-data-service
+  behavior:
+    scaleDown:
+      stabilizationWindowSeconds: 120
   minReplicas: 1
   maxReplicas: 10
   metrics:
@@ -52,6 +55,9 @@ spec:
     apiVersion: apps/v1
     kind: Deployment
     name: show-results
+  behavior:
+    scaleDown:
+      stabilizationWindowSeconds: 120
   minReplicas: 1
   maxReplicas: 10
   metrics:
