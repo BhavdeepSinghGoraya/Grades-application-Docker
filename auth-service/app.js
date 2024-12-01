@@ -38,5 +38,5 @@ app.post('/auth/login', (req, res) => {
 
 // Use CORS middleware
 app.use(cors({
-  origin: 'http://localhost:5001', // Allow requests from the Enter Data app
+  origin: 'http://enter-data-service:5001', // Allow requests from the Enter Data app
 }));

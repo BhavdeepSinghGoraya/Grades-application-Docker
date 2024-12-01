@@ -19,6 +19,7 @@ spec:
     spec:
       containers:
         - image: bhavya612/grades-application-docker-analytics-service:latest
+          imagePullPolicy: Always
           name: analytics-service
           resources:
             requests:
@@ -49,6 +50,7 @@ spec:
     spec:
       containers:
         - image: bhavya612/grades-application-docker-auth-service:latest
+          imagePullPolicy: Always
           name: auth-service
           resources:
             requests:
@@ -81,6 +83,7 @@ spec:
       containers:
         - name: enter-data-service
           image: bhavya612/grades-application-docker-enter-data-service:latest
+          imagePullPolicy: Always
           resources:
             requests:
               memory: "256Mi"
@@ -179,6 +182,7 @@ spec:
       containers:
         - name: mysql
           image: bhavya612/grades-application-mysql-service:latest
+          imagePullPolicy: Always
           env:
             - name: MYSQL_ALLOW_EMPTY_PASSWORD
               value: "no"
@@ -229,6 +233,7 @@ spec:
       containers:
         - image: bhavya612/grades-application-docker-show-results:latest
           name: show-results
+          imagePullPolicy: Always
           resources:
             requests:
               memory: "256Mi"
